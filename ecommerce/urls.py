@@ -15,7 +15,5 @@ urlpatterns = [
     # Add authentication URLs (for JWT)
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
-    # This will be your custom registration/user management (Phase 3)
-    # path('api/auth/register/', ...)
+    path('api/auth/', include('users.urls')), # For register/
 ]
