@@ -14,6 +14,10 @@ from pathlib import Path
 import dj_database_url
 from datetime import timedelta # Add this for JWT settings
 import os
+from dotenv import load_dotenv # Add this line
+
+# Load environment variables from .env file
+load_dotenv() # Add this line
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-insecure-default-key-for-development') # **NEVER USE THIS DEFAULT IN PRODUCTION!**
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-insecure-development-key-that-must-be-long-and-random')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 if not DEBUG:
     ALLOWED_HOSTS = ['your_production_domain.com', 'your_render_url.render.com'] # Update for production
 
@@ -47,7 +51,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'django_filters',
     'products',  # Your products app
-    'users'
+    'users',
+    'ecommerce',  # Your ecommerce API app
 ]
 
 MIDDLEWARE = [
@@ -96,7 +101,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Alternatively, using dj_database_url for cleaner environment variable use (recommended for future deployment):
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://postgres:postgrespassword@localhost/ecommerce_db',
+        default=os.environ.get('DATABASE_URL', 'postgres://ecommerce_user:your_strong_password@db:5432/ecommerce_db'), # Changed localhost to db
         conn_max_age=600
     )
 }

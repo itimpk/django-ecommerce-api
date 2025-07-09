@@ -1,0 +1,28 @@
+# Removed 'version: 3.8' as it's obsolete in modern Docker Compose
+services:
+  db:
+    image: postgres:17-alpine
+    volumes:
+      - pg_data:/var/lib/postgresql/data # This refers to the named volume 'pg_data' below
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: sh -c "python manage.py wait_for_db && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+# Define the named volume 'pg_data' here
+volumes:
+  pg_data:

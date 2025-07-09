@@ -13,9 +13,4 @@ except admin.sites.NotRegistered:
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    # Add 'is_staff' and 'is_superuser' to the list of fields displayed on the user change form
-    fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('is_staff', 'is_superuser')}),
-    )
-    # Also ensure these are visible in the user list view if desired
     list_display = UserAdmin.list_display + ('is_staff', 'is_superuser')
