@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'drf_spectacular',
     'django_filters',
     'products',  # Your products app
@@ -139,12 +140,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Where 'collectstatic' will gather files
+STATIC_URL = 'static/' # This is the URL where static files will be served
 
-# Add this for WhiteNoise to serve static files in production
-# Make sure 'whitenoise.middleware.WhiteNoiseMiddleware' is added to MIDDLEWARE
+# This is the directory where 'python manage.py collectstatic' will gather all static files.
+# It should be at the root of your project, alongside manage.py.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Configure WhiteNoise to serve compressed and cached static files.
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
