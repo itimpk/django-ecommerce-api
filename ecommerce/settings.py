@@ -44,18 +44,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'drf_spectacular',
     'django_filters',
-    'products',  # Your products app
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'products',
     'users',
-    'ecommerce',  # Your ecommerce API app
+    'ecommerce',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
