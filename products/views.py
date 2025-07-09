@@ -2,9 +2,11 @@
 from rest_framework import viewsets
 from .models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
-from .permissions import IsAdminUser, IsSellerUserOrAdmin, IsCustomerUser
-from rest_framework.permissions import IsAuthenticatedOrReadOnly # We set this as default in settings, but good to be explicit
-from rest_framework.authentication import TokenAuthentication # Example if you wanted basic token auth, but we're using JWT
+from .permissions import IsAdminUser, IsSellerUserOrAdmin
+from .filters import ProductFilter
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend # Import this
+from rest_framework import filters # For SearchFilter
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all().order_by('name')
@@ -17,6 +19,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # Seller/Admin users can create, update, delete products.
-    # Anyone authenticated can view, and unauthenticated can also view.
-    permission_classes = [IsAuthenticatedOrReadOnly, IsSellerUserOrAdmin] # Seller/Admin for write, all for read
+    permission_classes = [IsAuthenticatedOrReadOnly, IsSellerUserOrAdmin]
+    # --- Ensure these lines are correct ---
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter] # <--- Make sure OrderingFilter is here!
+    filterset_class = ProductFilter
+    search_fields = ['name', 'description']
+    ordering_fields = ['name', 'price', 'stock_quantity', 'created_at'] # Added 'created_at' for completeness
+    ordering = ['name'] # Default ordering, e.g., by name ascending

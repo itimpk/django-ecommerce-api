@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
+    'django_filters',
     'products',  # Your products app
     'users'
 ]
@@ -150,7 +151,15 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly', # Allow read for unauthenticated
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10, # Number of items per page
+    # You can choose other pagination styles: LimitOffsetPagination, CursorPagination
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 10, # for PageNumberPagination, LimitOffsetPagination, etc.
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    # 'PAGE_SIZE': 10,
+    # 'CURSOR_PAGINATION_PARAM': 'cursor', # Default for CursorPagination
 }
 
 # drf-spectacular settings for API documentation
