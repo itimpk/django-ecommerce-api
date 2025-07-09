@@ -33,8 +33,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-insecure-development-key-
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
-if not DEBUG:
-    ALLOWED_HOSTS = ['your_production_domain.com', 'your_render_url.render.com'] # Update for production
 
 
 # Application definition
