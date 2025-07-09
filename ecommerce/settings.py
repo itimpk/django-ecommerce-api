@@ -142,6 +142,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Where 'collectstatic' will gather files
+
+# Add this for WhiteNoise to serve static files in production
+# Make sure 'whitenoise.middleware.WhiteNoiseMiddleware' is added to MIDDLEWARE
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
