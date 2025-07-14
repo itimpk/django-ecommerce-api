@@ -32,10 +32,6 @@ env/
 .venv/
 .Python
 
-# Migrations
-**/migrations/
-!**/migrations/__init__.py
-
 # Coverage reports
 htmlcov/
 .coverage
